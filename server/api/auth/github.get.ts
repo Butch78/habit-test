@@ -1,6 +1,6 @@
 export default defineOAuthGitHubEventHandler({
   async onSuccess(event, { user }) {
-    await useDB()
+    await useDrizzle()
       .insert(tables.users)
       .values({
         id: user.id,

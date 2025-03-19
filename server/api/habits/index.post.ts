@@ -9,7 +9,7 @@ export default eventHandler(async event => {
 
   const { user } = await requireUserSession(event);
 
-  const habit = await useDB()
+  const habit = await useDrizzle()
     .insert(tables.habits)
     .values({
       userId: user.id,

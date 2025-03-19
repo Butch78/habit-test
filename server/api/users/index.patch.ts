@@ -10,7 +10,7 @@ export default eventHandler(async event => {
 
   const updatedFields = { userView };
 
-  const updatedUser = await useDB().update(tables.users).set(updatedFields).where(eq(tables.users.id, user.id)).returning().get();
+  const updatedUser = await useDrizzle().update(tables.users).set(updatedFields).where(eq(tables.users.id, user.id)).returning().get();
 
   return updatedUser;
 });

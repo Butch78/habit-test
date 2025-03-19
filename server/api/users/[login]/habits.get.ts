@@ -6,13 +6,13 @@ export default eventHandler(async event => {
     login: z.string().toLowerCase(),
   });
 
-  const user = await useDB().select().from(tables.users).where(eq(tables.users.login, login)).limit(1).get();
+  const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.login, login)).limit(1).get();
 
   if (!user || !user.userView) {
     return [];
   }
 
-  const habits = await useDB()
+  const habits = await useDrizzle()
     .select()
     .from(tables.habits)
     .where(and(eq(tables.habits.userId, user.id), eq(tables.habits.habitView, true)))

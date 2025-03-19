@@ -1,7 +1,57 @@
-import { sqliteTable, integer, text } from 'drizzle-orm/sqlite-core';
+
+import {
+  integer,
+  sqliteTable,
+  text,
+  AnySQLiteColumn,
+} from "drizzle-orm/sqlite-core";
+import { nanoid } from "nanoid";
+
+export const timestamps = {
+  // Meta Data
+  createdAt: integer("created_at", { mode: "timestamp" }).$default(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$onUpdate(
+    () => new Date()
+  ),
+  last_active: integer("last_active", { mode: "timestamp" })
+    .$onUpdate(() => new Date())
+    .$default(() => new Date()),
+  // Soft Delete
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+};
+
+
+export const books = sqliteTable("books", {
+  id: text()
+    .primaryKey()
+    .$default(() => nanoid()),
+  title: text().notNull(),
+  completed: integer()
+    .notNull()
+    .$defaultFn(() => 0),
+  ...timestamps,
+});
+
+export const todos = sqliteTable("todos", {
+  id: text()
+    .primaryKey()
+    .$default(() => nanoid()),
+  title: text().notNull(),
+  completed: integer()
+    .notNull()
+    .$defaultFn(() => 0),
+
+  bookId: text("book_id")
+    .notNull()
+    .references((): AnySQLiteColumn => books.id, { onDelete: "cascade" }),
+  ...timestamps,
+});
+
 
 export const habits = sqliteTable('habits', {
-  id: integer('id').primaryKey(),
+  id: text('id').primaryKey(),
   userId: integer('user_id').notNull(),
   title: text('title').notNull(),
   description: text('description'),

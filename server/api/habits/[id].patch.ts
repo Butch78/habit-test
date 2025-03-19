@@ -21,7 +21,7 @@ export default eventHandler(async event => {
   if (completeDays) updatedFields.completeDays = completeDays;
   if (habitView !== undefined) updatedFields.habitView = habitView;
 
-  const habit = await useDB()
+  const habit = await useDrizzle()
     .update(tables.habits)
     .set(updatedFields)
     .where(and(eq(tables.habits.id, id), eq(tables.habits.userId, user.id)))

@@ -5,9 +5,9 @@ export { sql, eq, and, or } from 'drizzle-orm';
 
 export const tables = schema;
 
-export function useDB() {
+export function useDrizzle() {
   return drizzle(hubDatabase(), { schema });
 }
 
-export type Habit = typeof tables.habits.$inferSelect;
-export type User = typeof tables.users.$inferSelect;
+// export type Habit = typeof tables.habits.$inferSelect;
+// export type User = typeof tables.users.$inferSelect;

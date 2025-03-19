@@ -8,7 +8,7 @@ export default eventHandler(async event => {
 
   const { user } = await requireUserSession(event);
 
-  const deletedHabit = await useDB()
+  const deletedHabit = await useDrizzle()
     .delete(tables.habits)
     .where(and(eq(tables.habits.id, id), eq(tables.habits.userId, user.id)))
     .returning()
